@@ -1,0 +1,16 @@
+{
+  "name": "Petfinder Proxy",
+  "description": "Manages secrets and tokens, and proxies network requests.",
+  "repository": "https://github.com/dylanon/petfinder-proxy",
+  "env": {
+    "CLIENT_SECRET": {
+      "description": "Your client secret (provided by Petfinder)",
+      "value": "YOURSECRETHERE"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-redis"
+    }
+  ]
+}
