@@ -63,7 +63,7 @@ app.use('/petfinder', async (req, res, next) => {
 
 app.get('/petfinder', async (req, res) => {
   const { query } = req;
-  const { clientId, reqUrl, params, proxyHeaders } = query;
+  const { clientId, reqUrl, params, proxyHeaders = {} } = query;
   let accessToken;
   try {
     accessToken = await redis.get(clientId);
@@ -72,16 +72,23 @@ app.get('/petfinder', async (req, res) => {
       message: 'OAuth2 proxy failed to retrieve access token from storage.',
     });
   }
+  const requestConfig = {
+    method: 'GET',
+    url: reqUrl,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ...proxyHeaders,
+    },
+  };
   try {
-    const response = await axios({
-      method: 'GET',
-      url: reqUrl,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ...proxyHeaders,
-      },
-      params: JSON.parse(params),
-    });
+    if (params) {
+      requestConfig.params = JSON.parse(params);
+    }
+  } catch (error) {
+    res.status(400).json({ message: '`params` must be a valid JSON string' });
+  }
+  try {
+    const response = await axios(requestConfig);
     res.json(response.data);
   } catch (error) {
     const { response: { status = 500 } = {} } = error;
