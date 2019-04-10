@@ -8,6 +8,7 @@
       "value": "YOURSECRETHERE"
     }
   },
+  "stack": "container",
   "addons": [
     {
       "plan": "heroku-redis"
