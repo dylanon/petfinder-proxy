@@ -44,7 +44,6 @@ app.use('/petfinder', async (req, res, next) => {
         process.env.CLIENT_SECRET
       }`,
     });
-    console.log(response);
     const { access_token, expires_in } = response;
     const expiryDate = dateFns.addSeconds(new Date(), expires_in);
     const expiryDateString = expiryDate.toISOString();
