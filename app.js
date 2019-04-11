@@ -15,7 +15,7 @@ app.use(morgan('combined'));
 const redis = new Redis(process.env.REDIS_URL || 'redis:6379');
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Hello, world!' });
+  res.send('Hello, world!');
 });
 
 // TODO: Validate query params
