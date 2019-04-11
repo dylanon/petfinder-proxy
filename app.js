@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('combined'));
 
-const redis = new Redis(process.env.REDIS_URL);
+const redis = new Redis(process.env.REDIS_URL || 'redis:6379');
 
 app.get('/', (req, res) => {
   res.json({ message: 'Hello, world!' });
